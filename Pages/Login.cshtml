@@ -1,0 +1,45 @@
+@page
+@model ArkdBarV1.Pages.LoginModel
+@{
+    ViewData["titulo"] = "Login de Usuário";
+}
+
+
+<div class="row justify-content-center">
+    <form method="post" asp-area="/Login" class="form-signin align-self-center">
+        <h1 class="mt-5 mb-3 font-weight-normal">Identifique-se, por favor</h1>
+
+        <style type="text/css">
+            .val-summary ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+
+        <div asp-validation-summary="ModelOnly" class="val-summary text-danger mb-3"></div>
+
+        <input asp-for="Dados.Email" class="form-control" placeholder="Informe seu email" required autofocus />
+        <span asp-validation-for="Dados.Email" class="text-danger"></span>
+
+        <input asp-for="Dados.Senha" class="form-control mt-3" placeholder="Informe sua senha" required  />
+        <span asp-validation-for="Dados.Senha" class="text-danger"></span>
+
+        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl"/>
+
+        <div class="checkbox mt-3">
+            <label asp-for="Dados.Lembrar">
+                <input asp-for="Dados.Lembrar" />
+                @Html.DisplayNameFor(m => m.Dados.Lembrar)
+            </label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+        <p class="mt-3">Ainda não é cadastrado? <a href="/NovoCliente">Clique aqui</a> para se cadastrar.</p>
+        @*<p class="mt-3">Esqueceu sua senha? <a href="/RecuperarSenha">Clique aqui</a> para recuperá-la.</p>*@
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

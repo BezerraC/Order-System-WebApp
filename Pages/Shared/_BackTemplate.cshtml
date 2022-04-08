@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org.1000/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" lang="pt-br" />
+    <title>Área Administrativa - ARKD BAR</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="bg-dark">
+        <div class="container">
+            <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+                <a class="navbar-brand" asp-page="/Index">
+                    <img src="/img/logo_bar.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+                    ARKD BAR
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" asp-area="" asp-page="/PedidoAdmin/Listar">Pedidos</a>
+                        <a class="nav-item nav-link" asp-area="" asp-page="/ProdutoCRUD/Listar">Produtos</a>
+                        <a class="nav-item nav-link" asp-area="" asp-page="/ClienteCRUD/Listar">Clientes</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </section>
+
+    <footer class="footer bg-light text-center p-2 fixed-bottom">
+        <div class="container">
+            <span class="text-muted">Copyright &copy; 2021 - Todos os direitos reservados.</span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip(); 
+        })
+    </script>
+</body>
+</html>

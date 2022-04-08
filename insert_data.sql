@@ -1,0 +1,18 @@
+﻿INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (1, 'Hbg', 'Pão australiano ou brioche, 220g de carne, calabresa, molho, queijo prato e batata frita.', 37.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (2, 'Sanduba Arkd', '160g de carne desfiada(fraldinha),queijo,pão baquete semi italiano,vinagrete,batata temperada e molho da casa.', 37.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (3, 'Simples', 'Porção de 900g com batata frita, calabresa, fritas e costela suína.', 95.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (4, 'Super', 'Porção de 1,3kg com 1 hambúrguer, batata frita, calabresa, frango, camarão frito e costela suína.', 155.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (5, 'Combo de Frango frito com Batata temperada', '400g de Frango frito empanado com 400g de Batata frita temperada,acompanha molho da casa e farofa.', 55.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (6, 'COMBO HBG', '02 HBG COCA-COLA DE 1 LT BATATA FRITA.', 65.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (7, 'Calabresa crocante', '400g de calabresa fatiadas e fritas.', 28.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (8, 'Frango Frito', '500g de coxinha da asa temperadas.', 35.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (9, 'Costela suína frita', '500g de costela suína e molho especial agridoce da casa.', 45.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (10, 'Camarão empanado', '400g de camarão regional sem cabeça, com casca marinado.', 50.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (11, 'Batata frita', '500g de batata com calabresa crocante.', 28.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (12, 'CHARQUE COM MACAXEIRA FRITA', 'PORÇÃO 200G DE CHARQUE FRITO, 200G MACAXEIRA FRITA E MANTEIGA TEMPERADA.', 40.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (13, 'Pepsi 350ml', '350ml', 7.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (14, 'Coca-Colca 350ml', '350ml', 7.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (15, 'Fanta 350ml', '350ml', 7.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (16, 'MOLHO DA CASA POTE 100ML', 'MOLHO A BASE DE ERVAS DESIDRATADAS E PIMENTA TAILANDESA.', 4.0);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (17, 'QUEIJO PRATO', 'QUEIJO PRATO FATIA', 1.50);
+INSERT INTO Produto (IdProduto, Nome, Descricao, Preco) VALUES (18, 'CARNE DE HAMBÚRGUER ADICIONAL', 'CARNE DE HAMBÚRGUER ARTESANAL COM 220G.', 15.0);

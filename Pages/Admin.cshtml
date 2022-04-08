@@ -1,0 +1,66 @@
+@page
+@model ArkdBarV1.Pages.AdminModel
+@{
+    ViewData["titulo"] = "Área Administrativa";
+    Layout = "_BackTemplate";
+ }
+
+
+
+<header class="container p-3">
+    <h1>Pedidos Pendentes</h1>
+</header>
+
+@if (Model.Pedidos.Count < 0)
+{
+<main class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(m => m.Pedidos[0].IdPedido)</th>
+                <th>@Html.DisplayNameFor(m => m.Pedidos[0].Cliente.Nome)</th>
+                <th>@Html.DisplayNameFor(m => m.Pedidos[0].ValorTotal)</th>
+                <th>@Html.DisplayNameFor(m => m.Pedidos[0].DataHoraPedido)</th>
+                <th class="text-center">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Pedidos)
+            {
+<tr>
+    <td>@item.IdPedido.ToString("D6")</td>
+    <td>@item.Cliente.Nome</td>
+    <td>@item.ValorTotal.ToString("C")</td>
+    <td>@item.DataHoraPedido.ToString()</td>
+    <td class="text-center">
+        <a class="btn btn-warning btn-sm p-1" asp-page="./PedidoAdmin/DetalhesPedido" asp-route-id="@item.IdPedido" title="Ver Itens do Pedido" data-toggle="tooltip">
+            <svg class="bi" width="24" height="24" fill="currentColor">
+                <use xlink:href="/bi.svg#list-check" />
+            </svg>
+        </a>
+        <a class="btn btn-primary btn-sm p-1" asp-page="./PedidoAdmin/Alterar" asp-route-id="@item.IdPedido" title="Alterar Pedido" data-toggle="tooltip">
+            <svg class="bi" width="24" height="24" fill="currentColor">
+                <use xlink:href="/bi.svg#pencil-square" />
+            </svg>
+        </a>
+        <form class="d-inline-block" asp-page-handler="ExcluirPedido" asp-route-id="@item.IdPedido" method="post" title="Cancelar Pedido" data-toggle="tooltip">
+            <button class="btn btn-danger btn-sm p-1" onclick="confirmarExclusao(this);" type="button">
+                <svg class="bi" width="24" height="24" fill="currentColor">
+                    <use xlink:href="/bi.svg#x" />
+                </svg>
+            </button>
+        </form>
+    </td>
+</tr>
+           }
+        </tbody>
+    </table>
+</main> }
+else
+{
+<h2>Não há pedidos realizados.</h2>}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_CustomConfirm");}
+}
+

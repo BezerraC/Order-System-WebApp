@@ -1,0 +1,151 @@
+@page
+@model ArkdBarV1.Pages.Admin.PedidoAdmin.DetalhesPedidoModel
+@{ ViewData["titulo"] = "Área Administrativa :: Detalhes de Pedido";
+    Layout = "_BackTemplate"; }
+
+<header class="container p-3">
+    <h1>Detalhes do Pedido <b id="idPedido">@Model.Pedido.IdPedido.ToString("D6")</b></h1>
+    <h4>Situação: <b>@Model.Pedido.Situacao.ToString()</b></h4>
+</header>
+<div class="container">
+    <hr />
+    <h3>Atendente: <b>@Model.Pedido.Cliente?.Nome</b></h3>
+    <h4>Cliente: <b></b></h4>
+    <h4>Mesa: <b></b></h4>
+    <hr />
+    <h4>Itens do Pedido</h4>
+</div>
+
+@if (Model.Pedido.ItensPedido.Count > 0)
+{
+    <main class="container">
+        <table class="table table-striped table-light table-sm table-hover">
+            <thead>
+                <tr class="bg-dark text-white">
+                    <th>@Html.DisplayNameFor(m => m.Pedido.ItensPedido.First().IdProduto)</th>
+                    <th>@Html.DisplayNameFor(m => m.Pedido.ItensPedido.First().Produto.Nome)</th>
+                    <th>@Html.DisplayNameFor(m => m.Pedido.ItensPedido.First().ValorUnitario)</th>
+                    <th>@Html.DisplayNameFor(m => m.Pedido.ItensPedido.First().Quantidade)</th>
+                    <th>@Html.DisplayNameFor(m => m.Pedido.ItensPedido.First().ValorItem)</th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.Pedido.ItensPedido)
+                {
+                    <tr id="@($"tr{item.IdProduto}")">
+                    <td>@item.IdProduto.ToString("D6")</td>
+                    <td>@item.Produto.Nome</td>
+                    <td>@item.ValorUnitario.ToString("C")</td>
+                    <td id="@($"qtde{item.IdProduto}")">@item.Quantidade.ToString()</td>
+                    <td id="@($"valorItem{item.IdProduto}")">@item.ValorItem.ToString("C")</td>
+
+                    <td class="text-center">
+                        @if (Model.Pedido.Situacao == Models.Pedido.SituacaoPedido.Realizado)
+                        {
+                            <button class="btn btn-success btn-sm p-1 btn-add" name="@item.IdProduto" data-value="1">
+                                <svg class="bi" width="24" height="24" fill="currentColor">
+                                    <use xlink:href="/bi.svg#plus" />
+                                </svg>
+                            </button>
+                            <button class="btn btn-warning btn-sm p-1 btn-rem" name="@item.IdProduto" data-value="-1">
+                                <svg class="bi" width="24" height="24" fill="currentColor">
+                                    <use xlink:href="/bi.svg#dash" />
+                                </svg>
+                            </button>
+                            <button class="btn btn-danger btn-sm p-1 btn-del" onclick="return confirm('Deseja realmente excluir?');" type="button" name="@item.IdProduto">
+                                <svg class="bi" width="24" height="24" fill="currentColor">
+                                    <use xlink:href="/bi.svg#trash" />
+                                </svg>
+                            </button>
+                         }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </td>
+                    </tr>
+                 }
+            </tbody>
+            <tfoot>
+                <tr class="bg-dark text-light">
+                    <th colspan="4">Valor Total do Pedido</th>
+                    <th id="valorPedido">@Model.Pedido.ValorTotal.ToString("C")</th>
+                    <th class="text-center">
+                        @if (Model.Pedido.Situacao == Models.Pedido.SituacaoPedido.Realizado)
+                        {
+                            <form method="post" asp-page-handler="AtenderPedido" asp-route-id="@Model.Pedido.IdPedido">
+                                <button class="btn btn-sm btn-primary">Atender Pedido</button>
+                            </form>
+                         }
+                         else
+                         {
+                            @Model.Pedido.Situacao.ToString()
+                         }
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </main>
+ }
+ else
+ {
+     <h2>Não há itens neste pedido.</h2>
+ }
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_CustomConfirm");}
+
+    <script>function atualizarQuantidade(el) {
+
+            var prod = $(this).attr("name");
+            var valor = $(this).attr("data-value");
+            var idQtde = "#qtde" + prod;
+            var qtde = parseInt($(idQtde).text()) + parseInt(valor);
+            var pedido = $("#idPedido").text();
+
+            $.post("/api/PedidoApi/AtualizarItemPedido",
+                {
+                    idPedido: pedido,
+                    idProduto: prod,
+                    quantidade: qtde
+                },
+                function (data, status) {
+                    if (status == "success") {
+                        if (!data) return;
+                        $("#valorPedido").text(data.v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        var idValorItem = "#valorItem" + data.item.id;
+                        var idQtde = "#qtde" + data.item.id;;
+                        $(idValorItem).text(data.item.v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        $(idQtde).text(data.item.q);
+                    }
+                }
+            );
+        }
+
+        $(".btn-add").click(atualizarQuantidade);
+
+        $(".btn-rem").click(atualizarQuantidade);
+
+        $(".btn-del").click(function () {
+
+            var prod = $(this).attr("name");
+            var pedido = $("#idPedido").text();
+
+            $.post("/api/PedidoApi/ExcluirItemPedido",
+                {
+                    idPedido: pedido,
+                    idProduto: prod
+                },
+                function (data, status) {
+                    if (status == "success") {
+                        if (!data) return;
+                        $("#valorPedido").text(data.v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        $("#tr" + data.id).remove();
+                        //if ($(".btn-del").length == 0) window.location.pathname = "/Admin/Admin";
+                    }
+                }
+            );
+        });</script>
+}

@@ -1,0 +1,60 @@
+@page
+@model ArkdBarV1.Pages.ProdutoCRUD.ListarModel
+
+@{ ViewData["titulo"] = "Listagem de Produtos"; }
+
+<header class="container p-3">
+    <div class="row align-items-center">
+        <div class="col-sm-6"><h1>@ViewData["titulo"]</h1></div>
+        <div class="col-sm-6 text-right"><a asp-page="Incluir" class="btn btn-info">Novo Produto</a></div>
+    </div>
+</header>
+
+<main class="container mb-5">
+   
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto[0].Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto[0].Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto[0].Preco)
+            </th>
+            <th class="text-center">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Produto)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+            <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+            <td>@Html.DisplayFor(modelItem => item.Preco)</td>
+            <td class="text-center btn-group ">
+                <a class="btn btn-primary btn-sm mr-1 p-1" asp-page="./Alterar" asp-route-id="@item.IdProduto" data-toggle="tooltip"
+                   title="Alterar">
+                    <svg class="bi" width="24" height="24" fill="currentColor">
+                        <use xlink:href="/bi.svg#pencil-square" />
+                    </svg>
+                </a>
+                <form class="d-inline-block" asp-page-handler="delete" asp-route-id="@item.IdProduto" method="post">
+                    <button class="btn btn-danger btn-sm p-1" onclick="confirmarExclusao(this);" type="button" data-toggle="tooltip" title="Excluir">
+                        <svg class="bi" width="24" height="24" fill="currentColor" >
+                            <use xlink:href="/bi.svg#trash" />
+                        </svg>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table> 
+</main>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_CustomConfirm");}
+}

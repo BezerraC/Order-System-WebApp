@@ -1,0 +1,28 @@
+@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@if (showBanner)
+ {
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+        Este site requer o uso de Coookies para funcionar corretamente. Se dejesa mais informações sobre
+        nossa política de privacidade, <a asp-page="/Privacy">clique aqui</a>.
+        <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+            <span aria-hidden="true">Aceitar</span>
+        </button>
+    </div>
+    <script>
+        (function () {
+            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            button.addEventListener("click", function (event) {
+                document.cookie = button.dataset.cookieString;
+            }, false);
+        })();
+    </script>
+ }
+
+@*https://docs.microsoft.com/pt-br/aspnet/core/security/gdpr?view=aspnetcore-3.1*@

@@ -1,0 +1,63 @@
+@page "{id:int?}"
+@model ArkdBarV1.Pages.ClienteCRUD.AlterarModel
+
+
+@{ ViewData["titulo"] = "Alteração de Clientes"; }
+
+<main class="container mt-3 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-sm-12">
+            <h1>@ViewData["titulo"]</h1>
+            <hr />
+            <form method="post" class="mt-3">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Cliente.IdCliente" />
+                <fieldset>
+                    <legend>Dados Pessoais</legend>
+                    <div class="form-group">
+                        <label asp-for="Cliente.Nome" class="control-label"></label>
+                        <input asp-for="Cliente.Nome" class="form-control col-6" />
+                        <span asp-validation-for="Cliente.Nome" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cliente.CPF" class="control-label"></label>
+                        <span>(somente números)</span>
+                        <input asp-for="Cliente.CPF" class="form-control col-2" />
+                        <span asp-validation-for="Cliente.CPF" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cliente.DataNascimento" class="control-label"></label>
+                        <input asp-for="Cliente.DataNascimento" class="form-control col-2" />
+                        <span asp-validation-for="Cliente.DataNascimento" class="text-danger"></span>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Contatos</legend>
+                    <div class="form-group">
+                        <label asp-for="Cliente.Email" class="control-label"></label>
+                        <input asp-for="Cliente.Email" class="form-control col-3" />
+                        <span asp-validation-for="Cliente.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Cliente.Telefone" class="control-label"></label>
+                        <span>(com DDD, somente números)</span>
+                        <input asp-for="Cliente.Telefone" class="form-control col-2" placeholder="99 9999 9999" />
+                        <span asp-validation-for="Cliente.Telefone" class="text-danger"></span>
+                    </div>
+
+                </fieldset>
+
+                <div class="form-group text-left">
+                    <a asp-page="./Listar" class="btn btn-info">Cancelar</a>
+                    <input type="submit" value="Salvar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_CustomConfirm");}
+
+} 

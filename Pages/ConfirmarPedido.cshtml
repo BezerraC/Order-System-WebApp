@@ -1,0 +1,87 @@
+@page
+@model ArkdBarV1.Pages.ConfirmarPedidoModel
+@{ ViewData["titulo"] = "Confirme Seu Pedido"; }
+
+<div class="card">
+    <div class="card-header bg-danger text-light">
+        <div class="row">
+            <div class="col-8">
+                <h4 class="m-0">
+                    @ViewData["titulo"]
+                </h4>
+            </div>
+            <div class="col-4 text-right">
+                <a asp-page="/Index" class="btn btn-outline-light btn-sm pull-right">Continuar Comprando</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        @if ((Model.Pedido != null) && (Model.Pedido.ItensPedido.Count > 0))
+        {
+@foreach (var item in Model.Pedido.ItensPedido.OrderBy(ip => ip.Produto.Nome))
+{
+
+    var caminhoArquivoImagem = System.IO.Path.Combine(
+        "img\\produto",
+        item.IdProduto.ToString("D6") + ".jpeg");
+
+<div class="row">
+    <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+        <img class="img-thumbnail" src="@caminhoArquivoImagem">
+    </div>
+    <div class="col-sm-9 col-md-4 col-lg-5 text-left">
+        <h4 class="product-name"><strong>@item.Produto.Nome</strong></h4>
+        <h4>
+            <small>@item.Produto.Descricao</small>
+        </h4>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-5">
+        <div class="row">
+            <div class="col-9 text-md-right pt-2 text-right">
+                <h6>
+                    <strong>
+                        R$ @item.ValorUnitario.ToString("F2")
+                        <span class="text-muted">x</span>
+                        @item.Quantidade
+                    </strong>
+                </h6>
+            </div>
+            <div class="col-3 mr-auto text-right mt-1 text-muted">
+                <b>R$ @item.ValorItem.ToString("F2")</b>
+            </div>
+        </div>
+    </div>
+</div>
+                    <hr>}
+                <div class="row text-right">
+                    <div class="col-sm-12">
+                        <h5 class="mb-3">Dados do Pedido</h5>
+                        <p>
+                            Atendente: <b>@Model.Cliente.Nome.Substring(0, Model.Cliente.Nome.IndexOf(' '))</b>
+                        </p>
+                        <p>
+                            Cliente: XXX
+                        </p>
+                        <p>
+                            Mesa: XXX
+                        </p>
+                    </div>
+                </div> }
+                            else
+                            {
+                <h3>Seu Carrinho de compras está vazio.</h3>}
+    </div>
+
+    <div class="card-footer text-right">
+        <div class="pull-right">
+            <div class="pull-right mb-2">
+                <h4>Valor Total: <b id="valorPedido">R$ @(Model.Pedido.ValorTotal.ToString("F2"))</b></h4>
+            </div>
+            <hr />
+            
+           
+            <a type="button" class="btn btn-sm pull-right" asp-page="/FinalizarPedido">Finalizar Pedido</a>
+        </div>
+    </div>
+</div>

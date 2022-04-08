@@ -1,0 +1,143 @@
+@page
+@model ArkdBarV1.Pages.CarrinhoModel
+@{ ViewData["titulo"] = "Carrinho de Compras"; }
+
+
+
+<div class="card">
+    <div class="card-header bg-danger text-light">
+        <div class="row">
+            <div class="col-8">
+                <h4 class="m-0">
+                    <svg class="bi" width="32" height="32" fill="currentColor">
+                        <use xlink:href="bi.svg#cart3" />
+                    </svg>
+                    @ViewData["titulo"]
+                </h4>
+            </div>
+            @*<div class="col-4 text-right">
+                <a asp-page="/Index" class="btn btn-outline-light btn-sm pull-right">Continuar Comprando</a>
+            </div>*@
+        </div>
+    </div>
+
+    <div class="card-body">
+        @if ((Model.Pedido != null) && (Model.Pedido.ItensPedido.Count > 0))
+        {
+@foreach (var item in Model.Pedido.ItensPedido)
+{
+
+    var caminhoArquivoImagem = System.IO.Path.Combine(
+        "img\\produto",
+        item.IdProduto.ToString("D6") + ".jpeg");
+
+<div class="row" id="@($"divItem{item.IdProduto}")">
+    <div class="col-sm-3 col-md-2 text-center mb-2 mb-sm-0">
+        <img class="img-thumbnail" src="@caminhoArquivoImagem">
+    </div>
+    <div class="col-sm-9 col-md-4 col-lg-5 text-left">
+        <h4 class="product-name"><strong>@item.Produto.Nome</strong></h4>
+        <h4>
+            <small>@item.Produto.Descricao</small>
+        </h4>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-5">
+        <div class="row">
+            <div class="col-4 text-md-right pt-2 text-right">
+                <h6>
+                    <strong id="@($"valorUnit{item.IdProduto}")">R$ @item.ValorUnitario.ToString("F2")</strong>
+                    <b><span class="text-muted">x</span></b>
+                </h6>
+            </div>
+            <div class="col-5">
+                <div name="@item.IdProduto">
+                    <input type="number" step="1" max="99" min="1" value="@item.Quantidade" title="Quantidade"
+                           class="border-dark px-1 input-spinner" name="@item.IdProduto">
+                </div>
+            </div>
+            <div class="col-3 text-right">
+                <button type="button" class="btn btn-outline-danger btn-xs btn-del" name="@item.IdProduto">
+                    <svg class="bi" width="24" height="24" fill="currentColor">
+                        <use xlink:href="bi.svg#trash" />
+                    </svg>
+                </button>
+            </div>
+            <div class="col-9 mr-auto text-right mt-1 text-muted">
+                <b id="@($"valorItem{item.IdProduto}")">R$ @item.ValorItem.ToString("F2")</b>
+            </div>
+        </div>
+    </div>
+</div>
+                    <hr id="@($"sepItem{item.IdProduto}")">} }
+else
+{
+<h3>Seu Carrinho de Compras está vazio.</h3>}
+    </div>
+
+    <div class="card-footer text-right">
+        <div class="pull-right">
+            <div class="pull-right mb-2">
+                Valor Total: <b id="valorPedido">R$ @(Model.TotalPedido.ToString("F2"))</b>
+
+            </div>
+            <a asp-page="/Index" class="btn btn-outline-danger btn-sm pull-right">Continuar Comprando</a>
+            @if (Model.Pedido?.ItensPedido?.Count > 0)
+            {
+
+                
+
+                <a asp-page="/ConfirmarPedido" class="btn btn-sm btn-success pull-right">Fechar Pedido</a>
+             }
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/bootstrap-input-spinner.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script>
+        $("input[type='number']").inputSpinner();
+        $(".input-spinner").change(function () {
+            var qtde = $(this).val();
+            var prod = $(this).attr("name");
+
+            $.post("/api/CarrinhoApi/AtualizarItemCarrinho",
+                {
+                    idCarrinho: Cookies.get("@Model.COOKIE_NAME"),
+                    idProduto: prod,
+                    quantidade: qtde
+                },
+                function (data, status) {
+                    if (status == "success") {
+                        if (!data) return;
+                        $("#valorPedido").text(data.v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        var idValorItem = "#valorItem" + data.item.id;
+                        $(idValorItem).text(data.item.v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                    }
+                }
+            );
+        });
+
+        $(".btn-del").click(function () {
+            var prod = $(this).attr("name");
+
+            $.post("/api/CarrinhoApi/ExcluirItemCarrinho",
+                {
+                    idCarrinho: Cookies.get("@Model.COOKIE_NAME"),
+                    idProduto: prod
+                },
+                function (data, status) {
+                    if (status == "success") {
+                        if (!data) return;
+                        $("#valorPedido").text(data.v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+                        $("#divItem" + data.id).remove();
+                        $("#sepItem" + data.id).remove();
+                        if ($(".btn-del").length == 0) window.location.pathname = "/Carrinho";
+                    }
+                }
+            );
+        });
+    </script>
+}

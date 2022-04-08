@@ -1,0 +1,96 @@
+@page
+@model ArkdBarV1.Pages.ClienteCRUD.ListarModel
+
+@{
+    ViewData["titulo"] = "Listagem de Clientes";
+}
+
+<header class="container p-3">
+    <div class="row align-items-center">
+        <div class="col-sm-6"><h1>@ViewData["titulo"]</h1></div>
+        <div class="col-sm-6 text-right"><a asp-page="Incluir" class="btn btn-info">Novo Cliente</a></div>
+    </div>
+</header>
+
+<main class="container mb-5">
+    @if (Model.Clientes.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Clientes[0].Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Clientes[0].CPF)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Clientes[0].DataNascimento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Clientes[0].Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Clientes[0].Telefone)
+                    </th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.Clientes)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CPF)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DataNascimento)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Telefone)</td>
+                    <td class="text-center">
+                        <a class="btn btn-primary btn-sm p-1" data-toggle="tooltip" title="Alterar" asp-page="./Alterar" asp-route-id="@item.IdCliente">
+                            <svg class="bi" width="24" height="24" fill="currentColor" >
+                                <use xlink:href="/bi.svg#pencil-square"/>
+                            </svg>
+                        </a>
+                        <form class="d-inline-block" asp-page-handler="delete" asp-route-id="@item.IdCliente" method="post">
+                            <button class="btn btn-danger btn-sm p-1" onclick="confirmarExclusao(this);" type="button" data-toggle="tooltip" title="Excluir">
+                                <svg class="bi" width="24" height="24" fill="currentColor">
+                                    <use xlink:href="/bi.svg#trash" />
+                                </svg>
+                            </button>
+                        </form>
+
+                        @if (Model.EmailsAdmins.Contains(item.Email))
+                         {
+                            <form class="d-inline-block" asp-page-handler="deladmin" asp-route-id="@item.IdCliente" method="post">
+                                <button class="btn btn-warning btn-sm p-1" type="submit" data-toggle="tooltip" title="Remover de Admin">
+                                    <svg class="bi" width="24" height="24" fill="currentColor">
+                                        <use xlink:href="/bi.svg#person" />
+                                    </svg>
+                                </button>
+                            </form>
+                         }
+                         else
+                         {
+                            <form class="d-inline-block" asp-page-handler="setadmin" asp-route-id="@item.IdCliente" method="post">
+                                <button class="btn btn-success btn-sm p-1" type="submit" data-toggle="tooltip" title="Adicionar a Admin">
+                                    <svg class="bi" width="24" height="24" fill="currentColor">
+                                        <use xlink:href="/bi.svg#shield-lock" />
+                                    </svg>
+                                </button>
+                            </form>
+                         }
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h2>Não há clientes cadastrados.</h2>
+    }
+</main>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_CustomConfirm");}
+}
