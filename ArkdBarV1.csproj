@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-ArkdBarV1-1F0C9251-83FB-4A3B-AC32-09AE438E7C44</UserSecretsId>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Models\" />
+    <None Remove="Pages\Produtos\" />
+    <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Pages\ClienteCRUD\" />
+    <None Remove="Pages\Shared\DisplayTemplates\" />
+    <None Remove="SixLabors.ImageSharp" />
+    <None Remove="iTextSharp.LGPLv2.Core" />
+    <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    <None Remove="MailKit" />
+    <None Remove="Entities\" />
+    <None Remove="Services\" />
+    <None Remove="API\" />
+    <None Remove="Pages\PedidoAdmin\" />
+    <None Remove="iTextSharp" />
+    <None Remove="DinkToPdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.22" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.22" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+<PrivateAssets>all</PrivateAssets>
+</PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.22" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="1.0.0" />
+    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.7.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="MailKit" Version="2.8.0" />
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Pages\ProdutoCRUD\" />
+    <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\img\produto\" />
+    <Folder Include="Pages\ClienteCRUD\" />
+    <Folder Include="Pages\Shared\DisplayTemplates\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Services\" />
+    <Folder Include="API\" />
+    <Folder Include="Pages\PedidoAdmin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\img\" />
+    <Content Remove="wwwroot\img\produto\" />
+  </ItemGroup>
+</Project>
